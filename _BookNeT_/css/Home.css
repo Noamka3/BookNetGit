@@ -1,0 +1,56 @@
+﻿body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background-image: url('/Images/Home/Background_Book.png');
+    background-size: cover; /* מתואם לגודל המסך */
+    background-position: center; /* מיקום התמונה במרכז */
+    background-repeat: no-repeat; /* לא לחזור על התמונה */
+}
+
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    justify-content: space-around;
+    position: relative;
+    top: 10%;
+}
+
+    .main h2 {
+        position: relative;
+        font-size: 40px;
+        top: 95px;
+        left: 25px;
+    }
+
+        .main h2 span {
+            color: #0094ff;
+        }
+
+    .main p {
+        width: 650px;
+        text-align: justify;
+        line-height: 22px;
+        position: relative;
+        top: 100px;
+        left: 25px;
+    }
+
+    .main .main_tag .main_btn {
+        background: #0094ff;
+        padding: 10px 20px;
+        position: relative;
+        top: 120px;
+        left: 25px;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .main .main_img img {
+        width: 600px;
+        padding: 50px 20px;
+        position: relative;
+        top: 90px;
+        left: 60px;
+    }

@@ -1,0 +1,31 @@
+﻿@model _BookNeT_.Models.Users
+
+<form id="userEditsForm" action="@Url.Action("SetEdits", "Users")" method="post">
+    <input type="hidden" name="UserID" value="@Model.UserID" /> <!-- ה-ID של המשתמש -->
+
+    <div>
+        <label for="FirstName">First Name:</label>
+        <input type="text" id="FirstName" name="FirstName" value="@Model.FirstName" class="form-control text-primary" />
+    </div>
+    <div>
+        <label for="LastName">Last Name:</label>
+        <input type="text" id="LastName" name="LastName" value="@Model.LastName" class="form-control text-primary"  />
+    </div>
+    <div>
+        <label for="Email">Email:</label>
+        <input type="email" id="Email" name="Email" value="@Model.Email" class="form-control text-primary" />
+    </div>
+    <div>
+        <label for="Phone">Phone:</label>
+        <input type="text" id="Phone" name="Phone" value="@Model.Phone" class="form-control text-primary" />
+    </div>
+    <div>
+        <label for="Role">Role:</label>
+        <input type="text" id="Role" name="Role" value="@Model.Role" class="form-control text-primary" />
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </div>
+</form>
+
