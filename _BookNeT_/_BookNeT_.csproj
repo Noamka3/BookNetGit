@@ -148,12 +148,10 @@
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-<<<<<<< HEAD
-    <Compile Include="Controllers\ProfileController.cs" />
-=======
-    <Compile Include="Controllers\LibraryController.cs" />
-    <Compile Include="Controllers\ShoppingCartController.cs" />
->>>>>>> 8b70d84b2e3bd3a11b6549c045f7ba6f792b85d7
+<<Compile Include="Controllers\ProfileController.cs" />
+<Compile Include="Controllers\LibraryController.cs" />
+<Compile Include="Controllers\ShoppingCartController.cs" />
+<Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -203,13 +201,10 @@
     <Compile Include="Models\UserLibrary.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-<<<<<<< HEAD
     <Compile Include="Models\viewModels\UserprofileViewModel.cs" />
-=======
     <Compile Include="Models\Users.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
->>>>>>> 8b70d84b2e3bd3a11b6549c045f7ba6f792b85d7
     <Compile Include="Models\viewModels\VerifyEmailModel.cs" />
     <Compile Include="Models\WaitingList.cs">
       <DependentUpon>Model1.tt</DependentUpon>
