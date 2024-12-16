@@ -25,7 +25,11 @@
     <NavigationProperty Name="ShoppingCart" Relationship="Self.FK__ShoppingC__BookI__7C4F7684" FromRole="Books" ToRole="ShoppingCart" />
     <NavigationProperty Name="UserLibrary" Relationship="Self.FK__UserLibra__BookI__7E37BEF6" FromRole="Books" ToRole="UserLibrary" />
     <NavigationProperty Name="WaitingList" Relationship="Self.FK__WaitingLi__BookI__7F2BE32F" FromRole="Books" ToRole="WaitingList" />
+<<<<<<< HEAD
     <Property Name="ImageUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+=======
+    <Property Name="ImageUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+>>>>>>> 8b70d84b2e3bd3a11b6549c045f7ba6f792b85d7
   </EntityType>
   <EntityType Name="Borrowing">
     <Key>
@@ -88,7 +92,32 @@
     <Property Name="Feedback" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
     <Property Name="FeedbackDate" Type="DateTime" Precision="0" />
     <NavigationProperty Name="Books" Relationship="Self.FK__UserLibra__BookI__7E37BEF6" FromRole="UserLibrary" ToRole="Books" />
+<<<<<<< HEAD
     <NavigationProperty Name="Users" Relationship="BookNeT_projectModel.FK__UserLibra__UserI__7D439ABD" FromRole="UserLibrary" ToRole="Users" />
+=======
+    <NavigationProperty Name="Users" Relationship="Self.FK__UserLibra__UserI__7D439ABD" FromRole="UserLibrary" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Role" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Age" Type="Int32" />
+    <Property Name="RegistrationDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Borrowing" Relationship="Self.FK__Borrowing__UserI__76969D2E" FromRole="Users" ToRole="Borrowing" />
+    <NavigationProperty Name="Purchases" Relationship="Self.FK__Purchases__UserI__787EE5A0" FromRole="Users" ToRole="Purchases" />
+    <NavigationProperty Name="ServiceFeedback" Relationship="Self.FK__ServiceFe__UserI__7A672E12" FromRole="Users" ToRole="ServiceFeedback" />
+    <NavigationProperty Name="ShoppingCart" Relationship="Self.FK__ShoppingC__UserI__7B5B524B" FromRole="Users" ToRole="ShoppingCart" />
+    <NavigationProperty Name="UserLibrary" Relationship="Self.FK__UserLibra__UserI__7D439ABD" FromRole="Users" ToRole="UserLibrary" />
+    <NavigationProperty Name="WaitingList" Relationship="Self.FK__WaitingLi__UserI__00200768" FromRole="Users" ToRole="WaitingList" />
+    <Property Name="ProfileImageUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+>>>>>>> 8b70d84b2e3bd3a11b6549c045f7ba6f792b85d7
   </EntityType>
   <EntityType Name="WaitingList">
     <Key>

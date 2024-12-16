@@ -20,7 +20,11 @@
     <Property Name="DiscountEndDate" Type="date" />
     <Property Name="BorrowDate" Type="date" />
     <Property Name="Status" Type="nvarchar" MaxLength="20" />
+<<<<<<< HEAD
     <Property Name="ImageUrl" Type="nvarchar" MaxLength="100" />
+=======
+    <Property Name="ImageUrl" Type="nvarchar" MaxLength="500" />
+>>>>>>> 8b70d84b2e3bd3a11b6549c045f7ba6f792b85d7
   </EntityType>
   <EntityType Name="Borrowing">
     <Key>
@@ -89,7 +93,11 @@
     <Property Name="Role" Type="nvarchar" MaxLength="20" Nullable="false" />
     <Property Name="Age" Type="int" />
     <Property Name="RegistrationDate" Type="date" />
+<<<<<<< HEAD
     <Property Name="ImageUrl" Type="nvarchar" MaxLength="150" />
+=======
+    <Property Name="ProfileImageUrl" Type="nvarchar" MaxLength="255" />
+>>>>>>> 8b70d84b2e3bd3a11b6549c045f7ba6f792b85d7
   </EntityType>
   <EntityType Name="WaitingList">
     <Key>

@@ -19,7 +19,9 @@ namespace _BookNeT_.Models
         public string FeedbackText { get; set; }
         public Nullable<int> Rating { get; set; }
         public Nullable<System.DateTime> FeedbackDate { get; set; }
+        public int BookID { get; set; }
     
         public virtual Users Users { get; set; }
+        public virtual Books Books { get; set; }
     }
 }
