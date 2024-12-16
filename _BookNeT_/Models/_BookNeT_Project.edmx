@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BookNeT_projectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BookNeT_projectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Books">
           <Key>
             <PropertyRef Name="BookID" />
@@ -25,6 +25,7 @@
           <Property Name="DiscountEndDate" Type="date" />
           <Property Name="BorrowDate" Type="date" />
           <Property Name="Status" Type="nvarchar" MaxLength="20" />
+          <Property Name="ImageUrl" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="Borrowing">
           <Key>
@@ -93,6 +94,7 @@
           <Property Name="Role" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Age" Type="int" />
           <Property Name="RegistrationDate" Type="date" />
+          <Property Name="ProfileImageUrl" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="WaitingList">
           <Key>
@@ -290,8 +292,7 @@
             <End Role="WaitingList" EntitySet="WaitingList" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BookNeT_projectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -320,6 +321,7 @@
           <NavigationProperty Name="ShoppingCart" Relationship="Self.FK__ShoppingC__BookI__7C4F7684" FromRole="Books" ToRole="ShoppingCart" />
           <NavigationProperty Name="UserLibrary" Relationship="Self.FK__UserLibra__BookI__7E37BEF6" FromRole="Books" ToRole="UserLibrary" />
           <NavigationProperty Name="WaitingList" Relationship="Self.FK__WaitingLi__BookI__7F2BE32F" FromRole="Books" ToRole="WaitingList" />
+          <Property Name="ImageUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Borrowing">
           <Key>
@@ -403,6 +405,7 @@
           <NavigationProperty Name="ShoppingCart" Relationship="Self.FK__ShoppingC__UserI__7B5B524B" FromRole="Users" ToRole="ShoppingCart" />
           <NavigationProperty Name="UserLibrary" Relationship="Self.FK__UserLibra__UserI__7D439ABD" FromRole="Users" ToRole="UserLibrary" />
           <NavigationProperty Name="WaitingList" Relationship="Self.FK__WaitingLi__UserI__00200768" FromRole="Users" ToRole="WaitingList" />
+          <Property Name="ProfileImageUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="WaitingList">
           <Key>
@@ -611,6 +614,7 @@
           <EntitySetMapping Name="Books">
             <EntityTypeMapping TypeName="BookNeT_projectModel.Books">
               <MappingFragment StoreEntitySet="Books">
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
                 <ScalarProperty Name="BookID" ColumnName="BookID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Author" ColumnName="Author" />
@@ -692,6 +696,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="BookNeT_projectModel.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ProfileImageUrl" ColumnName="ProfileImageUrl" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
@@ -739,3 +744,4 @@
     <Diagrams></Diagrams>
   </Designer>
 </edmx:Edmx>
+

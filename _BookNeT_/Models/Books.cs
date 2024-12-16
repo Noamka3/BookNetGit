@@ -22,6 +22,7 @@ namespace _BookNeT_.Models
             this.ShoppingCart = new HashSet<ShoppingCart>();
             this.UserLibrary = new HashSet<UserLibrary>();
             this.WaitingList = new HashSet<WaitingList>();
+            this.ServiceFeedback = new HashSet<ServiceFeedback>();
         }
     
         public int BookID { get; set; }
@@ -34,13 +35,26 @@ namespace _BookNeT_.Models
         public Nullable<decimal> PurchasePrice { get; set; }
         public Nullable<decimal> BorrowPrice { get; set; }
         public Nullable<int> Stock { get; set; }
-        public Nullable<bool> IsBorrowable { get; set; }
+        public Nullable<bool> IsBorrowable { get; set; } //= false: the book is only for buying
         public Nullable<int> AgeRestriction { get; set; }
         public Nullable<bool> IsDiscounted { get; set; }
         public Nullable<System.DateTime> DiscountEndDate { get; set; }
         public Nullable<System.DateTime> BorrowDate { get; set; }
         public string Status { get; set; }
+        public string ImageUrl { get; set; }
+        public Nullable<int> DiscountPercentage { get; set; }
+        public string Description { get; set; }
     
+        public decimal CalculateDiscountedPrice()
+        {
+            if (IsDiscounted.HasValue && IsDiscounted.Value && 
+                DiscountPercentage.HasValue && DiscountPercentage > 0)
+            {
+                return PurchasePrice.Value * (1 - (DiscountPercentage.Value / 100m));
+            }
+            return PurchasePrice.Value;
+        }
+        
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Borrowing> Borrowing { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -51,5 +65,7 @@ namespace _BookNeT_.Models
         public virtual ICollection<UserLibrary> UserLibrary { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WaitingList> WaitingList { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ServiceFeedback> ServiceFeedback { get; set; }
     }
 }

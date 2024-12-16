@@ -1,0 +1,31 @@
+﻿@model _BookNeT_.Models.Books
+
+<h2>Book Details</h2>
+<div>
+    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+    {
+        <img src="@Model.ImageUrl" alt="@Model.Title" style="max-width: 200px; height: auto;" />
+    }
+    <table class="table">
+        <tr><th>Book's name</th><td>@Model.Title</td></tr>
+        <tr><th>Author's name</th><td>@Model.Author</td></tr>
+        <tr><th>Publisher</th><td>@Model.Publisher</td></tr>
+        <tr><th>Year Of Publication</th><td>@Model.YearOfPublication</td></tr>
+        <tr><th>Format</th><td>@Model.Format</td></tr>
+        <tr><th>Genre</th><td>@Model.Genre</td></tr>
+        <tr><th>Purchase Price</th><td>₪@Model.PurchasePrice</td></tr>
+        <tr><th>Borrow Price</th><td>₪@Model.BorrowPrice</td></tr>
+        <tr><th>Number of copies</th><td>@Model.Stock</td></tr>
+        <tr><th>Is Borrowable</th><td>@(Model.IsBorrowable == true ? "Yes" : "No")</td></tr>
+        <tr><th>Age Restriction</th><td>@Model.AgeRestriction</td></tr>
+        <tr><th>Is Discounted</th><td>@(Model.IsDiscounted == true ? "Yes" : "No")</td></tr>
+        <tr><th>Discount End Date</th><td>@(Model.DiscountEndDate.HasValue ? Model.DiscountEndDate.Value.ToShortDateString() : "")</td>
+        <tr><th>Borrow Date</th><td>@(Model.BorrowDate.HasValue ? Model.BorrowDate.Value.ToShortDateString() : "")</td>
+        <tr><th>Description</th><td>@Model.Description</td></tr>
+        <tr><th>Discount Percentage</th><td>@(Model.DiscountPercentage.HasValue ? Model.DiscountPercentage + "%" : "N/A")</td></tr>
+        <tr><th>Status</th><td>@Model.Status</td></tr>
+    </table>
+
+    <a href="/Books/Edit/@Model.BookID" class="btn btn-warning">EDIT</a>
+    <a href="/Books/Index" class="btn btn-secondary">Back to list</a>
+</div>

@@ -19,6 +19,8 @@ namespace _BookNeT_.Models
         public int BookID { get; set; }
         public int Quantity { get; set; }
         public Nullable<System.DateTime> AddedDate { get; set; }
+        public bool IsBorrow { get; set; }
+        public bool IsPurchase { get; set; }
     
         public virtual Books Books { get; set; }
         public virtual Users Users { get; set; }

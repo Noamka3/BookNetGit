@@ -1,0 +1,49 @@
+﻿@model IEnumerable<_BookNeT_.Models.Books>
+
+<h2 style="text-align: center;">Book List</h2>
+<div class="mb-3" style="margin-bottom: 20px;">
+    <a href="/Books/Create" class="btn btn-primary">Add New Book</a>
+</div>
+
+<table class="table table-bordered" style="text-align: center;">
+    <thead class="thead-dark">
+    <tr>
+        <th style="width: 50px; text-align: center; vertical-align: middle;">Image</th>
+        <th style="width: 120px; text-align: center; vertical-align: middle;">Title</th>
+        <th style="text-align: center; vertical-align: middle;">Author</th>
+        <th style="text-align: center; vertical-align: middle;">Publisher</th>
+        <th style="text-align: center; vertical-align: middle;">Year</th>
+        <th style="text-align: center; vertical-align: middle;">Genre</th>
+        <th style="text-align: center; vertical-align: middle;">Copies</th>
+        <th style="text-align: center; vertical-align: middle;">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var book in Model)
+    {
+        <tr>
+            <td style="text-align: center; vertical-align: middle;">
+                @if (!string.IsNullOrEmpty(book.ImageUrl))
+                {
+                    <img src="@book.ImageUrl" alt="@book.Title" style="max-width: 50px; height: auto;" />
+                }
+                else
+                {
+                    <span>No Image Available</span>
+                }
+            </td>
+            <td style="text-align: center; vertical-align: middle;">@book.Title</td>
+            <td style="text-align: center; vertical-align: middle;">@book.Author</td>
+            <td style="text-align: center; vertical-align: middle;">@book.Publisher</td>
+            <td style="text-align: center; vertical-align: middle;">@book.YearOfPublication</td>
+            <td style="text-align: center; vertical-align: middle;">@book.Genre</td>
+            <td style="text-align: center; vertical-align: middle;">@book.Stock</td>
+            <td style="text-align: center; vertical-align: middle;">
+                <a href="/Books/Details/@book.BookID" class="btn btn-info btn-sm">Details</a>
+                <a href="/Books/Edit/@book.BookID" class="btn btn-warning btn-sm">Edit</a>
+                <a href="/Books/Delete/@book.BookID" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
