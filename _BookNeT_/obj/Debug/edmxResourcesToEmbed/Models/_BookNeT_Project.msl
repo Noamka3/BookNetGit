@@ -4,6 +4,7 @@
     <EntitySetMapping Name="Books">
       <EntityTypeMapping TypeName="BookNeT_projectModel.Books">
         <MappingFragment StoreEntitySet="Books">
+          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
           <ScalarProperty Name="BookID" ColumnName="BookID" />
           <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="Author" ColumnName="Author" />
@@ -85,6 +86,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="BookNeT_projectModel.Users">
         <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="ProfileImageUrl" ColumnName="ProfileImageUrl" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="LastName" ColumnName="LastName" />

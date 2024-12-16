@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ae1339eabbdd4a0a99b7c83993acb7db" Name="Diagram1">
+      <Diagram DiagramId="ae1339eabbdd4a0a99b7c83993acb7db" Name="Diagram1" ZoomLevel="93">
         <EntityTypeShape EntityType="BookNeTModel.Books" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
         <EntityTypeShape EntityType="BookNeTModel.Borrowing" Width="1.5" PointX="3" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BookNeTModel.Purchases" Width="1.5" PointX="6" PointY="9.875" IsExpanded="true" />
@@ -24,6 +24,7 @@
         <AssociationConnector Association="BookNeTModel.FK__ShoppingC__UserI__5535A963" ManuallyRouted="false" />
         <AssociationConnector Association="BookNeTModel.FK__UserLibra__UserI__4222D4EF" ManuallyRouted="false" />
         <AssociationConnector Association="BookNeTModel.FK__WaitingLi__UserI__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="BookNeTModel.FK_ServiceFeedback_Books" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

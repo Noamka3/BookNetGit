@@ -25,6 +25,10 @@
     <NavigationProperty Name="ShoppingCart" Relationship="Self.FK__ShoppingC__BookI__5629CD9C" FromRole="Books" ToRole="ShoppingCart" />
     <NavigationProperty Name="UserLibrary" Relationship="Self.FK__UserLibra__BookI__4316F928" FromRole="Books" ToRole="UserLibrary" />
     <NavigationProperty Name="WaitingList" Relationship="Self.FK__WaitingLi__BookI__46E78A0C" FromRole="Books" ToRole="WaitingList" />
+    <Property Name="ImageUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DiscountPercentage" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ServiceFeedback" Relationship="BookNeTModel.FK_ServiceFeedback_Books" FromRole="Books" ToRole="ServiceFeedback" />
   </EntityType>
   <EntityType Name="Borrowing">
     <Key>
@@ -61,6 +65,8 @@
     <Property Name="Rating" Type="Int32" />
     <Property Name="FeedbackDate" Type="DateTime" Precision="0" />
     <NavigationProperty Name="Users" Relationship="Self.FK__ServiceFe__UserI__59FA5E80" FromRole="ServiceFeedback" ToRole="Users" />
+    <Property Name="BookID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Books" Relationship="BookNeTModel.FK_ServiceFeedback_Books" FromRole="ServiceFeedback" ToRole="Books" />
   </EntityType>
   <EntityType Name="ShoppingCart">
     <Key>
@@ -73,6 +79,8 @@
     <Property Name="AddedDate" Type="DateTime" Precision="0" />
     <NavigationProperty Name="Books" Relationship="Self.FK__ShoppingC__BookI__5629CD9C" FromRole="ShoppingCart" ToRole="Books" />
     <NavigationProperty Name="Users" Relationship="Self.FK__ShoppingC__UserI__5535A963" FromRole="ShoppingCart" ToRole="Users" />
+    <Property Name="IsBorrow" Type="Boolean" Nullable="false" />
+    <Property Name="IsPurchase" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="UserLibrary">
     <Key>
@@ -108,6 +116,7 @@
     <NavigationProperty Name="ShoppingCart" Relationship="Self.FK__ShoppingC__UserI__5535A963" FromRole="Users" ToRole="ShoppingCart" />
     <NavigationProperty Name="UserLibrary" Relationship="Self.FK__UserLibra__UserI__4222D4EF" FromRole="Users" ToRole="UserLibrary" />
     <NavigationProperty Name="WaitingList" Relationship="Self.FK__WaitingLi__UserI__47DBAE45" FromRole="Users" ToRole="WaitingList" />
+    <Property Name="ImageUrl" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="WaitingList">
     <Key>
@@ -306,5 +315,21 @@
       <End Role="Users" EntitySet="Users" />
       <End Role="WaitingList" EntitySet="WaitingList" />
     </AssociationSet>
+    <AssociationSet Name="FK_ServiceFeedback_Books" Association="BookNeTModel.FK_ServiceFeedback_Books">
+      <End Role="Books" EntitySet="Books" />
+      <End Role="ServiceFeedback" EntitySet="ServiceFeedback" />
+    </AssociationSet>
   </EntityContainer>
+  <Association Name="FK_ServiceFeedback_Books">
+    <End Type="BookNeTModel.Books" Role="Books" Multiplicity="1" />
+    <End Type="BookNeTModel.ServiceFeedback" Role="ServiceFeedback" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Books">
+        <PropertyRef Name="BookID" />
+      </Principal>
+      <Dependent Role="ServiceFeedback">
+        <PropertyRef Name="BookID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

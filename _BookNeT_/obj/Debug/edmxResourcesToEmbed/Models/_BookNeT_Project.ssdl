@@ -20,6 +20,7 @@
     <Property Name="DiscountEndDate" Type="date" />
     <Property Name="BorrowDate" Type="date" />
     <Property Name="Status" Type="nvarchar" MaxLength="20" />
+    <Property Name="ImageUrl" Type="nvarchar" MaxLength="500" />
   </EntityType>
   <EntityType Name="Borrowing">
     <Key>
@@ -88,6 +89,7 @@
     <Property Name="Role" Type="nvarchar" MaxLength="20" Nullable="false" />
     <Property Name="Age" Type="int" />
     <Property Name="RegistrationDate" Type="date" />
+    <Property Name="ProfileImageUrl" Type="nvarchar" MaxLength="255" />
   </EntityType>
   <EntityType Name="WaitingList">
     <Key>

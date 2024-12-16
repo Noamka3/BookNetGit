@@ -20,6 +20,9 @@
     <Property Name="DiscountEndDate" Type="date" />
     <Property Name="BorrowDate" Type="date" />
     <Property Name="Status" Type="nvarchar" MaxLength="20" />
+    <Property Name="ImageUrl" Type="nvarchar" MaxLength="100" />
+    <Property Name="DiscountPercentage" Type="int" />
+    <Property Name="Description" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="Borrowing">
     <Key>
@@ -51,6 +54,7 @@
     <Property Name="FeedbackText" Type="nvarchar" MaxLength="1000" />
     <Property Name="Rating" Type="int" />
     <Property Name="FeedbackDate" Type="date" />
+    <Property Name="BookID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ShoppingCart">
     <Key>
@@ -61,6 +65,8 @@
     <Property Name="BookID" Type="int" Nullable="false" />
     <Property Name="Quantity" Type="int" Nullable="false" />
     <Property Name="AddedDate" Type="date" />
+    <Property Name="IsBorrow" Type="bit" Nullable="false" />
+    <Property Name="IsPurchase" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="UserLibrary">
     <Key>
@@ -88,6 +94,7 @@
     <Property Name="Role" Type="nvarchar" MaxLength="20" Nullable="false" />
     <Property Name="Age" Type="int" />
     <Property Name="RegistrationDate" Type="date" />
+    <Property Name="ImageUrl" Type="nvarchar" MaxLength="150" />
   </EntityType>
   <EntityType Name="WaitingList">
     <Key>
@@ -99,7 +106,7 @@
     <Property Name="Position" Type="int" Nullable="false" />
     <Property Name="NotificationSent" Type="bit" />
   </EntityType>
-  <Association Name="FK__Borrowing__BookI__4CA06362">
+  <Association Name="FK__Borrowing__BookI__778AC167">
     <End Role="Books" Type="Self.Books" Multiplicity="1" />
     <End Role="Borrowing" Type="Self.Borrowing" Multiplicity="*" />
     <ReferentialConstraint>
@@ -111,7 +118,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Borrowing__UserI__4BAC3F29">
+  <Association Name="FK__Borrowing__UserI__76969D2E">
     <End Role="Users" Type="Self.Users" Multiplicity="1" />
     <End Role="Borrowing" Type="Self.Borrowing" Multiplicity="*" />
     <ReferentialConstraint>
@@ -123,7 +130,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Purchases__BookI__5165187F">
+  <Association Name="FK__Purchases__BookI__797309D9">
     <End Role="Books" Type="Self.Books" Multiplicity="1" />
     <End Role="Purchases" Type="Self.Purchases" Multiplicity="*" />
     <ReferentialConstraint>
@@ -135,7 +142,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Purchases__UserI__5070F446">
+  <Association Name="FK__Purchases__UserI__787EE5A0">
     <End Role="Users" Type="Self.Users" Multiplicity="1" />
     <End Role="Purchases" Type="Self.Purchases" Multiplicity="*" />
     <ReferentialConstraint>
@@ -147,7 +154,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ServiceFe__UserI__59FA5E80">
+  <Association Name="FK__ServiceFe__UserI__7A672E12">
     <End Role="Users" Type="Self.Users" Multiplicity="1" />
     <End Role="ServiceFeedback" Type="Self.ServiceFeedback" Multiplicity="*" />
     <ReferentialConstraint>
@@ -159,7 +166,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ShoppingC__BookI__5629CD9C">
+  <Association Name="FK__ShoppingC__BookI__7C4F7684">
     <End Role="Books" Type="Self.Books" Multiplicity="1" />
     <End Role="ShoppingCart" Type="Self.ShoppingCart" Multiplicity="*" />
     <ReferentialConstraint>
@@ -171,7 +178,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ShoppingC__UserI__5535A963">
+  <Association Name="FK__ShoppingC__UserI__7B5B524B">
     <End Role="Users" Type="Self.Users" Multiplicity="1" />
     <End Role="ShoppingCart" Type="Self.ShoppingCart" Multiplicity="*" />
     <ReferentialConstraint>
@@ -183,7 +190,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__UserLibra__BookI__4316F928">
+  <Association Name="FK__UserLibra__BookI__7E37BEF6">
     <End Role="Books" Type="Self.Books" Multiplicity="1" />
     <End Role="UserLibrary" Type="Self.UserLibrary" Multiplicity="*" />
     <ReferentialConstraint>
@@ -195,7 +202,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__UserLibra__UserI__4222D4EF">
+  <Association Name="FK__UserLibra__UserI__7D439ABD">
     <End Role="Users" Type="Self.Users" Multiplicity="1" />
     <End Role="UserLibrary" Type="Self.UserLibrary" Multiplicity="*" />
     <ReferentialConstraint>
@@ -207,7 +214,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__WaitingLi__BookI__46E78A0C">
+  <Association Name="FK__WaitingLi__BookI__7F2BE32F">
     <End Role="Books" Type="Self.Books" Multiplicity="1" />
     <End Role="WaitingList" Type="Self.WaitingList" Multiplicity="*" />
     <ReferentialConstraint>
@@ -219,7 +226,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__WaitingLi__UserI__47DBAE45">
+  <Association Name="FK__WaitingLi__UserI__00200768">
     <End Role="Users" Type="Self.Users" Multiplicity="1" />
     <End Role="WaitingList" Type="Self.WaitingList" Multiplicity="*" />
     <ReferentialConstraint>
@@ -228,6 +235,18 @@
       </Principal>
       <Dependent Role="WaitingList">
         <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ServiceFeedback_Books">
+    <End Role="Books" Type="Self.Books" Multiplicity="1" />
+    <End Role="ServiceFeedback" Type="Self.ServiceFeedback" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Books">
+        <PropertyRef Name="BookID" />
+      </Principal>
+      <Dependent Role="ServiceFeedback">
+        <PropertyRef Name="BookID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -240,49 +259,53 @@
     <EntitySet Name="UserLibrary" EntityType="Self.UserLibrary" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WaitingList" EntityType="Self.WaitingList" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__Borrowing__BookI__4CA06362" Association="Self.FK__Borrowing__BookI__4CA06362">
+    <AssociationSet Name="FK__Borrowing__BookI__778AC167" Association="Self.FK__Borrowing__BookI__778AC167">
       <End Role="Books" EntitySet="Books" />
       <End Role="Borrowing" EntitySet="Borrowing" />
     </AssociationSet>
-    <AssociationSet Name="FK__Borrowing__UserI__4BAC3F29" Association="Self.FK__Borrowing__UserI__4BAC3F29">
+    <AssociationSet Name="FK__Borrowing__UserI__76969D2E" Association="Self.FK__Borrowing__UserI__76969D2E">
       <End Role="Users" EntitySet="Users" />
       <End Role="Borrowing" EntitySet="Borrowing" />
     </AssociationSet>
-    <AssociationSet Name="FK__Purchases__BookI__5165187F" Association="Self.FK__Purchases__BookI__5165187F">
+    <AssociationSet Name="FK__Purchases__BookI__797309D9" Association="Self.FK__Purchases__BookI__797309D9">
       <End Role="Books" EntitySet="Books" />
       <End Role="Purchases" EntitySet="Purchases" />
     </AssociationSet>
-    <AssociationSet Name="FK__Purchases__UserI__5070F446" Association="Self.FK__Purchases__UserI__5070F446">
+    <AssociationSet Name="FK__Purchases__UserI__787EE5A0" Association="Self.FK__Purchases__UserI__787EE5A0">
       <End Role="Users" EntitySet="Users" />
       <End Role="Purchases" EntitySet="Purchases" />
     </AssociationSet>
-    <AssociationSet Name="FK__ServiceFe__UserI__59FA5E80" Association="Self.FK__ServiceFe__UserI__59FA5E80">
+    <AssociationSet Name="FK__ServiceFe__UserI__7A672E12" Association="Self.FK__ServiceFe__UserI__7A672E12">
       <End Role="Users" EntitySet="Users" />
       <End Role="ServiceFeedback" EntitySet="ServiceFeedback" />
     </AssociationSet>
-    <AssociationSet Name="FK__ShoppingC__BookI__5629CD9C" Association="Self.FK__ShoppingC__BookI__5629CD9C">
+    <AssociationSet Name="FK__ShoppingC__BookI__7C4F7684" Association="Self.FK__ShoppingC__BookI__7C4F7684">
       <End Role="Books" EntitySet="Books" />
       <End Role="ShoppingCart" EntitySet="ShoppingCart" />
     </AssociationSet>
-    <AssociationSet Name="FK__ShoppingC__UserI__5535A963" Association="Self.FK__ShoppingC__UserI__5535A963">
+    <AssociationSet Name="FK__ShoppingC__UserI__7B5B524B" Association="Self.FK__ShoppingC__UserI__7B5B524B">
       <End Role="Users" EntitySet="Users" />
       <End Role="ShoppingCart" EntitySet="ShoppingCart" />
     </AssociationSet>
-    <AssociationSet Name="FK__UserLibra__BookI__4316F928" Association="Self.FK__UserLibra__BookI__4316F928">
+    <AssociationSet Name="FK__UserLibra__BookI__7E37BEF6" Association="Self.FK__UserLibra__BookI__7E37BEF6">
       <End Role="Books" EntitySet="Books" />
       <End Role="UserLibrary" EntitySet="UserLibrary" />
     </AssociationSet>
-    <AssociationSet Name="FK__UserLibra__UserI__4222D4EF" Association="Self.FK__UserLibra__UserI__4222D4EF">
+    <AssociationSet Name="FK__UserLibra__UserI__7D439ABD" Association="Self.FK__UserLibra__UserI__7D439ABD">
       <End Role="Users" EntitySet="Users" />
       <End Role="UserLibrary" EntitySet="UserLibrary" />
     </AssociationSet>
-    <AssociationSet Name="FK__WaitingLi__BookI__46E78A0C" Association="Self.FK__WaitingLi__BookI__46E78A0C">
+    <AssociationSet Name="FK__WaitingLi__BookI__7F2BE32F" Association="Self.FK__WaitingLi__BookI__7F2BE32F">
       <End Role="Books" EntitySet="Books" />
       <End Role="WaitingList" EntitySet="WaitingList" />
     </AssociationSet>
-    <AssociationSet Name="FK__WaitingLi__UserI__47DBAE45" Association="Self.FK__WaitingLi__UserI__47DBAE45">
+    <AssociationSet Name="FK__WaitingLi__UserI__00200768" Association="Self.FK__WaitingLi__UserI__00200768">
       <End Role="Users" EntitySet="Users" />
       <End Role="WaitingList" EntitySet="WaitingList" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ServiceFeedback_Books" Association="Self.FK_ServiceFeedback_Books">
+      <End Role="Books" EntitySet="Books" />
+      <End Role="ServiceFeedback" EntitySet="ServiceFeedback" />
     </AssociationSet>
   </EntityContainer>
 </Schema>
