@@ -147,11 +147,17 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\BookUser\BorrowingBookViewModel.cs" />
+    <Compile Include="Models\BookUser\PurchasedBookViewModel.cs" />
+    <Compile Include="Models\database_firewall_rules.cs">
+      <DependentUpon>_BookNeT_Project.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -173,6 +179,9 @@
     <Compile Include="Models\Borrowing.cs">
       <DependentUpon>_BookNeT_Project.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Users.cs">
+      <DependentUpon>_BookNeT_Project.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\viewModels\ChangePasswordViewModel.cs" />
     <Compile Include="Models\viewModels\LoginViewModel.cs" />
     <Compile Include="Models\Purchases.cs">
@@ -188,9 +197,7 @@
     <Compile Include="Models\UserLibrary.cs">
       <DependentUpon>_BookNeT_Project.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Users.cs">
-      <DependentUpon>_BookNeT_Project.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\viewModels\UserprofileViewModel.cs" />
     <Compile Include="Models\viewModels\VerifyEmailModel.cs" />
     <Compile Include="Models\WaitingList.cs">
       <DependentUpon>_BookNeT_Project.tt</DependentUpon>
@@ -220,6 +227,11 @@
     <Content Include="css\Account\Account.css" />
     <Content Include="css\Admin\Users.css" />
     <Content Include="css\Home.css" />
+    <Content Include="css\ToolsProfile\BorrowingBook.css" />
+    <Content Include="css\ToolsProfile\Details.css" />
+    <Content Include="css\ToolsProfile\PurcbasedBook.css" />
+    <Content Include="css\ToolsProfile\Support.css" />
+    <Content Include="css\ToolsProfile\Tools.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -227,6 +239,10 @@
     <Content Include="Images\Home\Background_Book.png" />
     <Content Include="Images\Home\table.png" />
     <Content Include="Images\Login_and_registration\Background_Book.jpg" />
+    <Content Include="Images\Logo\BOOKNET-removebg-preview %281%29.png" />
+    <Content Include="Images\Logo\BOOKNET-removebg-preview.png" />
+    <Content Include="Images\Logo\BookNet.png" />
+    <Content Include="Images\Logo\BOOKNET__2_-removebg-preview.png" />
     <Content Include="Js\Admin_Edit_user_Table.js" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -301,10 +317,14 @@
     <Content Include="Views\Account\VerifyEmail.cshtml" />
     <Content Include="Views\Users\admin_edit_user.cshtml" />
     <Content Include="Views\Users\Admin_Details_user.cshtml" />
+    <Content Include="Views\Shared\_Tools.cshtml" />
+    <Content Include="Views\Profile\Details.cshtml" />
+    <Content Include="Views\Profile\Support.cshtml" />
+    <Content Include="Views\Profile\PurchasedBooks.cshtml" />
+    <Content Include="Views\Profile\BorrowingBooks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -31,13 +31,13 @@ namespace _BookNeT_.Controllers
                 var existingUser = db.Users.SingleOrDefault(u => u.Email == model.Email);
                 if (existingUser != null)
                 {
-                    ModelState.AddModelError("Email", "המייל כבר קיים במערכת.");
+                    ModelState.AddModelError("Email", "The email already exists in the system.");
                     return View(model);
                 }
 
                 if (string.IsNullOrEmpty(model.Password))
                 {
-                    ModelState.AddModelError("Password", "חובה להזין סיסמה.");
+                    ModelState.AddModelError("Password", "Password is required.");
                     return View(model);
                 }
 
@@ -95,6 +95,7 @@ namespace _BookNeT_.Controllers
                 {
 
                     Session["Email"] = user.Email;
+                    Session["UserID"] = user.UserID;
                     Session["Role"] = user.Role;
                     Session["FirstName"] = user.FirstName;
                     if (model.RememberMe)
@@ -141,18 +142,18 @@ namespace _BookNeT_.Controllers
                         // שליחת מייל עם קישור לאיפוס סיסמה
                         SendResetPasswordEmail(model.Email);
 
-                        TempData["SuccessMessage"] = "מייל לאיפוס סיסמה נשלח לכתובת האימייל.";
+                        TempData["SuccessMessage"] = "A password reset email has been sent to the provided email address.";
                         Session["Email"] = model.Email;
                         return RedirectToAction("ChangePassword", "Account");
                     }
                     catch (Exception ex)
                     {
-                        ModelState.AddModelError("", $"אירעה שגיאה בעת שליחת המייל: {ex.Message}");
+                        ModelState.AddModelError("", $"An error occurred while sending the email: {ex.Message}");
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("Email", "האימייל שהוזן לא נמצא במערכת.");
+                    ModelState.AddModelError("Email", "The provided email does not exist in the system.");
                 }
             }
 
@@ -173,8 +174,8 @@ namespace _BookNeT_.Controllers
                 MailMessage mail = new MailMessage
                 {
                     From = new MailAddress(smtpUsername),
-                    Subject = "איפוס סיסמה - BookNeT",
-                    Body = $"<p>לחץ על הקישור הבא לאיפוס הסיסמה:</p><p><a href='{resetLink}'>איפוס סיסמה</a></p>",
+                    Subject = "Password Reset - BookNeT",
+                    Body = $"<p>Click the following link to reset your password:</p><p><a href='{resetLink}'>Reset Password</a></p>",
                     IsBodyHtml = true
                 };
                 mail.To.Add(email);
@@ -188,7 +189,8 @@ namespace _BookNeT_.Controllers
             }
             catch (Exception ex)
             {
-                throw new Exception("אירעה שגיאה בעת שליחת המייל: " + ex.Message);
+                throw new Exception("An error occurred while sending the email: " + ex.Message);
+
             }
         }
         public ActionResult ChangePassword()
@@ -210,7 +212,8 @@ namespace _BookNeT_.Controllers
                 // בדוק אם הסיסמאות תואמות
                 if (model.NewPassword != model.ConfirmNewPassword)
                 {
-                    ModelState.AddModelError("", "הסיסמאות לא תואמות. אנא נסה שוב.");
+                    ModelState.AddModelError("", "The passwords do not match. Please try again.");
+
                     return View(model);  // החזר את הדף עם הודעת השגיאה
                 }
                 try
@@ -224,18 +227,21 @@ namespace _BookNeT_.Controllers
                        
                         db.SaveChanges();  // שמור את השינויים בבסיס הנתונים
 
-                        TempData["SuccessMessage"] = "הסיסמה שונתה בהצלחה!";
+                        TempData["SuccessMessage"] = "The password has been changed successfully!";
+
                         return RedirectToAction("Login", "Account");  // הפנה למסך הכניסה לאחר השינוי
                     }
                     else
                     {
-                        ModelState.AddModelError("", "לא נמצא משתמש עם האימייל הזה.");
+                        ModelState.AddModelError("", "No user found with this email.");
+
                     }
                 }
                 catch (Exception ex)
                 {
                     // טיפול בשגיאות במקרה של בעיה עם בסיס הנתונים או השינוי
-                    ModelState.AddModelError("", $"אירעה שגיאה: {ex.Message}");
+                    ModelState.AddModelError("", $"An error occurred: {ex.Message}");
+
                 }
             }
 

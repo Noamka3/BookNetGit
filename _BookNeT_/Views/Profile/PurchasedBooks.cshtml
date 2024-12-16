@@ -1,0 +1,48 @@
+﻿@model List<_BookNeT_.Models.BookUser.PurchasedBookViewModel>
+
+@{
+    ViewBag.Title = "Books You Purchased";
+    Layout = "~/Views/Shared/_Tools.cshtml";
+}
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Loading Bootstrap files -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+
+    <!-- Custom CSS file -->
+    <link rel="stylesheet" href="~/css/ToolsProfile/PurcbasedBook.css" />
+</head>
+<div class="container mt-5">
+    <h1 class="text-center mb-4 text-primary font-weight-bold">📚 Books You Purchased</h1>
+    <div class="books-container">
+            @if (Model != null && Model.Any())
+            {
+                foreach (var book in Model)
+                {
+                    <div class="book-card">
+                        <div class="book-image-container">
+                            <img src="@book.ImageUrl" class="book-image" alt="Book image">
+                        </div>
+                        <div class="book-details">
+                            <h5 class="book-title">@book.Title</h5>
+                            <p class="book-author">Author: @book.Author</p>
+                            <p class="book-purchase-date">Purchase Date: @book.PurchaseDate</p>
+                        </div>
+                        <button class="btn-info">More Info</button>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center">
+                    <div class="alert alert-warning text-center" role="alert">
+                        You haven't purchased any books yet. Order now!
+                    </div>
+                </div>
+            }
+        </div>
+    </div>

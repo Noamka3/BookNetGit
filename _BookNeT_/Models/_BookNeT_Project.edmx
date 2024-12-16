@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BookNeT_projectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BookNeT_projectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Books">
           <Key>
             <PropertyRef Name="BookID" />
@@ -25,6 +25,7 @@
           <Property Name="DiscountEndDate" Type="date" />
           <Property Name="BorrowDate" Type="date" />
           <Property Name="Status" Type="nvarchar" MaxLength="20" />
+          <Property Name="ImageUrl" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Borrowing">
           <Key>
@@ -93,6 +94,7 @@
           <Property Name="Role" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Age" Type="int" />
           <Property Name="RegistrationDate" Type="date" />
+          <Property Name="ImageUrl" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="WaitingList">
           <Key>
@@ -103,6 +105,24 @@
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="Position" Type="int" Nullable="false" />
           <Property Name="NotificationSent" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '_BookNeT_project.sys.database_firewall_rules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="database_firewall_rules">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="start_ip_address" />
+            <PropertyRef Name="end_ip_address" />
+            <PropertyRef Name="create_date" />
+            <PropertyRef Name="modify_date" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="start_ip_address" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="end_ip_address" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="create_date" Type="datetime" Nullable="false" />
+          <Property Name="modify_date" Type="datetime" Nullable="false" />
         </EntityType>
         <Association Name="FK__Borrowing__BookI__778AC167">
           <End Role="Books" Type="Self.Books" Multiplicity="1" />
@@ -245,6 +265,16 @@
           <EntitySet Name="UserLibrary" EntityType="Self.UserLibrary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WaitingList" EntityType="Self.WaitingList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" store:Type="Views" store:Schema="sys">
+            <DefiningQuery>SELECT 
+    [database_firewall_rules].[id] AS [id], 
+    [database_firewall_rules].[name] AS [name], 
+    [database_firewall_rules].[start_ip_address] AS [start_ip_address], 
+    [database_firewall_rules].[end_ip_address] AS [end_ip_address], 
+    [database_firewall_rules].[create_date] AS [create_date], 
+    [database_firewall_rules].[modify_date] AS [modify_date]
+    FROM [sys].[database_firewall_rules] AS [database_firewall_rules]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK__Borrowing__BookI__778AC167" Association="Self.FK__Borrowing__BookI__778AC167">
             <End Role="Books" EntitySet="Books" />
             <End Role="Borrowing" EntitySet="Borrowing" />
@@ -290,8 +320,7 @@
             <End Role="WaitingList" EntitySet="WaitingList" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BookNeT_projectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -320,6 +349,7 @@
           <NavigationProperty Name="ShoppingCart" Relationship="Self.FK__ShoppingC__BookI__7C4F7684" FromRole="Books" ToRole="ShoppingCart" />
           <NavigationProperty Name="UserLibrary" Relationship="Self.FK__UserLibra__BookI__7E37BEF6" FromRole="Books" ToRole="UserLibrary" />
           <NavigationProperty Name="WaitingList" Relationship="Self.FK__WaitingLi__BookI__7F2BE32F" FromRole="Books" ToRole="WaitingList" />
+          <Property Name="ImageUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Borrowing">
           <Key>
@@ -332,7 +362,7 @@
           <Property Name="DueDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Books" Relationship="Self.FK__Borrowing__BookI__778AC167" FromRole="Borrowing" ToRole="Books" />
-          <NavigationProperty Name="Users" Relationship="Self.FK__Borrowing__UserI__76969D2E" FromRole="Borrowing" ToRole="Users" />
+          <NavigationProperty Name="Users" Relationship="BookNeT_projectModel.FK__Borrowing__UserI__76969D2E" FromRole="Borrowing" ToRole="Users" />
         </EntityType>
         <EntityType Name="Purchases">
           <Key>
@@ -344,7 +374,7 @@
           <Property Name="PurchaseDate" Type="DateTime" Precision="0" />
           <Property Name="Amount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <NavigationProperty Name="Books" Relationship="Self.FK__Purchases__BookI__797309D9" FromRole="Purchases" ToRole="Books" />
-          <NavigationProperty Name="Users" Relationship="Self.FK__Purchases__UserI__787EE5A0" FromRole="Purchases" ToRole="Users" />
+          <NavigationProperty Name="Users" Relationship="BookNeT_projectModel.FK__Purchases__UserI__787EE5A0" FromRole="Purchases" ToRole="Users" />
         </EntityType>
         <EntityType Name="ServiceFeedback">
           <Key>
@@ -355,7 +385,7 @@
           <Property Name="FeedbackText" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Rating" Type="Int32" />
           <Property Name="FeedbackDate" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Users" Relationship="Self.FK__ServiceFe__UserI__7A672E12" FromRole="ServiceFeedback" ToRole="Users" />
+          <NavigationProperty Name="Users" Relationship="BookNeT_projectModel.FK__ServiceFe__UserI__7A672E12" FromRole="ServiceFeedback" ToRole="Users" />
         </EntityType>
         <EntityType Name="ShoppingCart">
           <Key>
@@ -367,7 +397,7 @@
           <Property Name="Quantity" Type="Int32" Nullable="false" />
           <Property Name="AddedDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Books" Relationship="Self.FK__ShoppingC__BookI__7C4F7684" FromRole="ShoppingCart" ToRole="Books" />
-          <NavigationProperty Name="Users" Relationship="Self.FK__ShoppingC__UserI__7B5B524B" FromRole="ShoppingCart" ToRole="Users" />
+          <NavigationProperty Name="Users" Relationship="BookNeT_projectModel.FK__ShoppingC__UserI__7B5B524B" FromRole="ShoppingCart" ToRole="Users" />
         </EntityType>
         <EntityType Name="UserLibrary">
           <Key>
@@ -382,27 +412,7 @@
           <Property Name="Feedback" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="FeedbackDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Books" Relationship="Self.FK__UserLibra__BookI__7E37BEF6" FromRole="UserLibrary" ToRole="Books" />
-          <NavigationProperty Name="Users" Relationship="Self.FK__UserLibra__UserI__7D439ABD" FromRole="UserLibrary" ToRole="Users" />
-        </EntityType>
-        <EntityType Name="Users">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Role" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Age" Type="Int32" />
-          <Property Name="RegistrationDate" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Borrowing" Relationship="Self.FK__Borrowing__UserI__76969D2E" FromRole="Users" ToRole="Borrowing" />
-          <NavigationProperty Name="Purchases" Relationship="Self.FK__Purchases__UserI__787EE5A0" FromRole="Users" ToRole="Purchases" />
-          <NavigationProperty Name="ServiceFeedback" Relationship="Self.FK__ServiceFe__UserI__7A672E12" FromRole="Users" ToRole="ServiceFeedback" />
-          <NavigationProperty Name="ShoppingCart" Relationship="Self.FK__ShoppingC__UserI__7B5B524B" FromRole="Users" ToRole="ShoppingCart" />
-          <NavigationProperty Name="UserLibrary" Relationship="Self.FK__UserLibra__UserI__7D439ABD" FromRole="Users" ToRole="UserLibrary" />
-          <NavigationProperty Name="WaitingList" Relationship="Self.FK__WaitingLi__UserI__00200768" FromRole="Users" ToRole="WaitingList" />
+          <NavigationProperty Name="Users" Relationship="BookNeT_projectModel.FK__UserLibra__UserI__7D439ABD" FromRole="UserLibrary" ToRole="Users" />
         </EntityType>
         <EntityType Name="WaitingList">
           <Key>
@@ -414,7 +424,7 @@
           <Property Name="Position" Type="Int32" Nullable="false" />
           <Property Name="NotificationSent" Type="Boolean" />
           <NavigationProperty Name="Books" Relationship="Self.FK__WaitingLi__BookI__7F2BE32F" FromRole="WaitingList" ToRole="Books" />
-          <NavigationProperty Name="Users" Relationship="Self.FK__WaitingLi__UserI__00200768" FromRole="WaitingList" ToRole="Users" />
+          <NavigationProperty Name="Users" Relationship="BookNeT_projectModel.FK__WaitingLi__UserI__00200768" FromRole="WaitingList" ToRole="Users" />
         </EntityType>
         <Association Name="FK__Borrowing__BookI__778AC167">
           <End Role="Books" Type="Self.Books" Multiplicity="1" />
@@ -476,78 +486,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Borrowing__UserI__76969D2E">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Borrowing" Type="Self.Borrowing" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="Borrowing">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Purchases__UserI__787EE5A0">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Purchases" Type="Self.Purchases" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="Purchases">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ServiceFe__UserI__7A672E12">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="ServiceFeedback" Type="Self.ServiceFeedback" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="ServiceFeedback">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ShoppingC__UserI__7B5B524B">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="ShoppingCart" Type="Self.ShoppingCart" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="ShoppingCart">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__UserLibra__UserI__7D439ABD">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="UserLibrary" Type="Self.UserLibrary" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="UserLibrary">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__WaitingLi__UserI__00200768">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="WaitingList" Type="Self.WaitingList" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="WaitingList">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="BookNeT_projectEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Books" EntityType="Self.Books" />
           <EntitySet Name="Borrowing" EntityType="Self.Borrowing" />
@@ -555,7 +493,6 @@
           <EntitySet Name="ServiceFeedback" EntityType="Self.ServiceFeedback" />
           <EntitySet Name="ShoppingCart" EntityType="Self.ShoppingCart" />
           <EntitySet Name="UserLibrary" EntityType="Self.UserLibrary" />
-          <EntitySet Name="Users" EntityType="Self.Users" />
           <EntitySet Name="WaitingList" EntityType="Self.WaitingList" />
           <AssociationSet Name="FK__Borrowing__BookI__778AC167" Association="Self.FK__Borrowing__BookI__778AC167">
             <End Role="Books" EntitySet="Books" />
@@ -577,32 +514,143 @@
             <End Role="Books" EntitySet="Books" />
             <End Role="WaitingList" EntitySet="WaitingList" />
           </AssociationSet>
-          <AssociationSet Name="FK__Borrowing__UserI__76969D2E" Association="Self.FK__Borrowing__UserI__76969D2E">
+          <EntitySet Name="database_firewall_rules" EntityType="BookNeT_projectModel.database_firewall_rules" />
+          <EntitySet Name="Users" EntityType="BookNeT_projectModel.Users" />
+          <AssociationSet Name="FK__Borrowing__UserI__76969D2E" Association="BookNeT_projectModel.FK__Borrowing__UserI__76969D2E">
             <End Role="Users" EntitySet="Users" />
             <End Role="Borrowing" EntitySet="Borrowing" />
           </AssociationSet>
-          <AssociationSet Name="FK__Purchases__UserI__787EE5A0" Association="Self.FK__Purchases__UserI__787EE5A0">
+          <AssociationSet Name="FK__Purchases__UserI__787EE5A0" Association="BookNeT_projectModel.FK__Purchases__UserI__787EE5A0">
             <End Role="Users" EntitySet="Users" />
             <End Role="Purchases" EntitySet="Purchases" />
           </AssociationSet>
-          <AssociationSet Name="FK__ServiceFe__UserI__7A672E12" Association="Self.FK__ServiceFe__UserI__7A672E12">
+          <AssociationSet Name="FK__ServiceFe__UserI__7A672E12" Association="BookNeT_projectModel.FK__ServiceFe__UserI__7A672E12">
             <End Role="Users" EntitySet="Users" />
             <End Role="ServiceFeedback" EntitySet="ServiceFeedback" />
           </AssociationSet>
-          <AssociationSet Name="FK__ShoppingC__UserI__7B5B524B" Association="Self.FK__ShoppingC__UserI__7B5B524B">
+          <AssociationSet Name="FK__ShoppingC__UserI__7B5B524B" Association="BookNeT_projectModel.FK__ShoppingC__UserI__7B5B524B">
             <End Role="Users" EntitySet="Users" />
             <End Role="ShoppingCart" EntitySet="ShoppingCart" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserLibra__UserI__7D439ABD" Association="Self.FK__UserLibra__UserI__7D439ABD">
+          <AssociationSet Name="FK__UserLibra__UserI__7D439ABD" Association="BookNeT_projectModel.FK__UserLibra__UserI__7D439ABD">
             <End Role="Users" EntitySet="Users" />
             <End Role="UserLibrary" EntitySet="UserLibrary" />
           </AssociationSet>
-          <AssociationSet Name="FK__WaitingLi__UserI__00200768" Association="Self.FK__WaitingLi__UserI__00200768">
+          <AssociationSet Name="FK__WaitingLi__UserI__00200768" Association="BookNeT_projectModel.FK__WaitingLi__UserI__00200768">
             <End Role="Users" EntitySet="Users" />
             <End Role="WaitingList" EntitySet="WaitingList" />
           </AssociationSet>
-        </EntityContainer>
-      </Schema>
+          </EntityContainer>
+        <EntityType Name="database_firewall_rules">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="start_ip_address" />
+            <PropertyRef Name="end_ip_address" />
+            <PropertyRef Name="create_date" />
+            <PropertyRef Name="modify_date" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="start_ip_address" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="end_ip_address" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="modify_date" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Role" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="RegistrationDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Borrowing" Relationship="BookNeT_projectModel.FK__Borrowing__UserI__76969D2E" FromRole="Users" ToRole="Borrowing" />
+          <NavigationProperty Name="Purchases" Relationship="BookNeT_projectModel.FK__Purchases__UserI__787EE5A0" FromRole="Users" ToRole="Purchases" />
+          <NavigationProperty Name="ServiceFeedback" Relationship="BookNeT_projectModel.FK__ServiceFe__UserI__7A672E12" FromRole="Users" ToRole="ServiceFeedback" />
+          <NavigationProperty Name="ShoppingCart" Relationship="BookNeT_projectModel.FK__ShoppingC__UserI__7B5B524B" FromRole="Users" ToRole="ShoppingCart" />
+          <NavigationProperty Name="UserLibrary" Relationship="BookNeT_projectModel.FK__UserLibra__UserI__7D439ABD" FromRole="Users" ToRole="UserLibrary" />
+          <NavigationProperty Name="WaitingList" Relationship="BookNeT_projectModel.FK__WaitingLi__UserI__00200768" FromRole="Users" ToRole="WaitingList" />
+          <Property Name="ImageUrl" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK__Borrowing__UserI__76969D2E">
+          <End Type="BookNeT_projectModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="BookNeT_projectModel.Borrowing" Role="Borrowing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Borrowing">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Purchases__UserI__787EE5A0">
+          <End Type="BookNeT_projectModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="BookNeT_projectModel.Purchases" Role="Purchases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Purchases">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ServiceFe__UserI__7A672E12">
+          <End Type="BookNeT_projectModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="BookNeT_projectModel.ServiceFeedback" Role="ServiceFeedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ServiceFeedback">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ShoppingC__UserI__7B5B524B">
+          <End Type="BookNeT_projectModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="BookNeT_projectModel.ShoppingCart" Role="ShoppingCart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ShoppingCart">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserLibra__UserI__7D439ABD">
+          <End Type="BookNeT_projectModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="BookNeT_projectModel.UserLibrary" Role="UserLibrary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserLibrary">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__WaitingLi__UserI__00200768">
+          <End Type="BookNeT_projectModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="BookNeT_projectModel.WaitingList" Role="WaitingList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="WaitingList">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -611,6 +659,7 @@
           <EntitySetMapping Name="Books">
             <EntityTypeMapping TypeName="BookNeT_projectModel.Books">
               <MappingFragment StoreEntitySet="Books">
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
                 <ScalarProperty Name="BookID" ColumnName="BookID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Author" ColumnName="Author" />
@@ -689,21 +738,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="BookNeT_projectModel.Users">
-              <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Role" ColumnName="Role" />
-                <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="WaitingList">
             <EntityTypeMapping TypeName="BookNeT_projectModel.WaitingList">
               <MappingFragment StoreEntitySet="WaitingList">
@@ -712,6 +746,34 @@
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Position" ColumnName="Position" />
                 <ScalarProperty Name="NotificationSent" ColumnName="NotificationSent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="database_firewall_rules">
+            <EntityTypeMapping TypeName="BookNeT_projectModel.database_firewall_rules">
+              <MappingFragment StoreEntitySet="database_firewall_rules">
+                <ScalarProperty Name="modify_date" ColumnName="modify_date" />
+                <ScalarProperty Name="create_date" ColumnName="create_date" />
+                <ScalarProperty Name="end_ip_address" ColumnName="end_ip_address" />
+                <ScalarProperty Name="start_ip_address" ColumnName="start_ip_address" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="BookNeT_projectModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

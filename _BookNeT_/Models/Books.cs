@@ -40,6 +40,7 @@ namespace _BookNeT_.Models
         public Nullable<System.DateTime> DiscountEndDate { get; set; }
         public Nullable<System.DateTime> BorrowDate { get; set; }
         public string Status { get; set; }
+        public string ImageUrl { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Borrowing> Borrowing { get; set; }
