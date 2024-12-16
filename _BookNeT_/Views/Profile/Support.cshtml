@@ -1,0 +1,124 @@
+﻿@model _BookNeT_.Models.Users
+@{
+    ViewBag.Title = "Support";
+    Layout = "~/Views/Shared/_Tools.cshtml";
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+
+    <!-- הוספת ה-CSS -->
+    <link rel="stylesheet" href="~/css/ToolsProfile/Support.css" />
+    <!-- Bootstrap CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<div class="container mt-5">
+    <!-- Page Title -->
+    <h2 class="text-center mb-4 text-dark font-weight-bold">Contact Support</h2>
+
+    <!-- Success Message Alert -->
+    @if (ViewBag.ResponseMessage != null)
+    {
+        <div class="alert alert-success text-center shadow-lg">
+            @ViewBag.ResponseMessage
+        </div>
+    }
+
+    <!-- Support Form Section -->
+    <div class="row gx-4 gy-3 justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="font-weight-bold">Contact Support</h4>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <!-- Select Subject -->
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Choose a Subject</label>
+                            <select class="form-select" id="subject" name="subject" required>
+                                <option value="">Select a Subject...</option>
+                                <option value="Technical Issue">Technical Issue</option>
+                                <option value="Account Problem">Account Problem</option>
+                                <option value="Payment Issue">Payment Issue</option>
+                                <option value="Feedback/Suggestion">Feedback/Suggestion</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Message Input -->
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Your Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="4" placeholder="Type your message here..." required></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center mt-3">
+                            <button type="button" class="btn btn-primary btn-lg" id="submitButton">Submit Request</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Info Section -->
+    <footer class="mt-5 pt-4 pb-4 bg-light rounded">
+        <div class="container text-center text-dark">
+            <h4 class="mb-2">Support Information</h4>
+            <p class="small mb-3">If you encounter technical problems, questions about your account, or need assistance, contact us directly:</p>
+            <ul class="list-unstyled">
+                <li><strong>Email:</strong> support@booknet.com</li>
+                <li><strong>Phone:</strong> +1 (555) 555-5555</li>
+            </ul>
+        </div>
+    </footer>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#submitButton").click(function () {
+            var messageContent = $("#message").val();
+            var subjectContent = $("#subject").val(); // קבלת הערך של נושא התמיכה
+
+            if (!messageContent) {
+                alert("Please enter a message.");
+                return;
+            }
+
+            if (!subjectContent) {
+                alert("Please select a subject.");
+                return;
+            }
+
+            // שליחת ה-AJAX ל-Controller
+            $.ajax({
+                url: '/Profile/SubmitSupportRequest',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    message: messageContent,
+                    subject: subjectContent // הוספת ה-Subject לשליחה
+                }),
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message);
+
+                        // ניקוי התיבה לאחר שליחה מוצלחת
+                        $("#message").val('');
+                        $("#subject").val(''); // ניקוי גם את נושא התמיכה
+                    } else {
+                        alert("Error: " + response.message);
+                    }
+                },
+                error: function () {
+                    alert("There was an error sending your request.");
+                }
+            });
+        });
+    });
+</script>

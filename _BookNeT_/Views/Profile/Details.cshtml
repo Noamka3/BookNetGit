@@ -1,0 +1,244 @@
+﻿@model _BookNeT_.Models.Users
+@{
+    ViewBag.Title = "פרטי משתמש";
+    Layout = "~/Views/Shared/_Tools.cshtml";
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- הטעינה של קובצי Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+
+    <!-- קובץ CSS מותאם אישית -->
+    <link rel="stylesheet" href="~/css/ToolsProfile/Details.css" />
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="card shadow-lg user-profile-container">
+            <!-- Header עיצובי עם שם ותפקיד -->
+            <div class="card-header bg-gradient text-white text-center">
+                <div class="profile-picture">
+                    <i class="bi bi-person-circle profile-icon"></i>
+                </div>
+                <div class="text-center mt-4">
+                    <button class="btn btn-primary btn-lg" id="uploadImageBtn">Upload Profile Image</button>
+                </div>
+                <h3>@Model.FirstName @Model.LastName</h3>
+                <p class="role-text">@Model.Role</p>
+            </div>
+            <!-- גוף הכרטיס -->
+            <div class="card-body">
+                <!-- מידע ארגוני -->
+                <div class="user-details-container row gx-3 gy-3">
+                    <div class="col-12 col-sm-6">
+                        <div class="info-box">
+                            <p><strong>Email:</strong> <span id="userEmail">@Model.Email</span></p>
+                            <p><strong>Phone:</strong> <span id="userPhone">@Model.Phone</span></p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="info-box">
+                            <p><strong>Age:</strong> <span id="userAge">@Model.Age</span></p>
+                            <p><strong>Role:</strong> @Model.Role</p>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="info-box">
+                            <p><strong>Registration Date:</strong> @((Model.RegistrationDate != null) ? Model.RegistrationDate?.ToString("dd/MM/yyyy") : "N/A")</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- כפתור עריכת פרופיל -->
+                <div class="text-center mt-4">
+                    <button class="btn btn-primary btn-lg" id="editProfileBtn">Edit Profile</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Edit Profile -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content shadow-lg custom-modal bg-dark">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title title-centered" id="editProfileModalLabel">Edit Your Profile</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-container">
+                        <div class="form-group mb-3">
+                            <label for="editFirstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="editFirstName" value="@Model.FirstName">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="editLastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="editLastName" value="@Model.LastName">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="editEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="editEmail" value="@Model.Email">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="editPhone" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="editPhone" value="@Model.Phone">
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="editAge" class="form-label">Age</label>
+                            <input type="number" class="form-control" id="editAge" value="@Model.Age">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-lg" id="cancelEditBtn" style="background-color: #660a0a; border: none;">Cancel</button>
+                    <button type="button" class="btn btn-danger btn-lg" id="ChangePassword" style="background-color: #222; border: none;">Change Password</button>
+                    <button type="button" class="btn btn-success btn-lg" id="saveProfileBtn" style="background-color: #222; border: none;">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+
+<!-- Modal for Uploading Profile Picture -->
+<div class="modal fade" id="uploadImageModal" tabindex="-1" aria-labelledby="uploadImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content shadow-lg custom-modal bg-dark">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title title-centered" id="uploadImageModalLabel">Upload Profile Image</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-container">
+                    <div class="form-group mb-3">
+                        <label for="profileImage" class="form-label">Select Your Profile Image</label>
+                        <input type="file" class="form-control" id="profileImage">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-lg" id="cancelUploadBtn">Cancel</button>
+                <button type="button" class="btn btn-success btn-lg" id="saveImageBtn">Upload Image</button>
+            </div>
+        </div>
+    </div>
+</div>
+ <script>
+     $(document).ready(function () {
+         // כפתור עריכת פרופיל - מציג את המודאל עם המידע הנוכחי של המשתמש
+         $("#editProfileBtn").click(function () {
+             $("#editProfileModal").modal("show");
+         });
+
+         // כפתור ביטול עריכה - מסתיר את המודאל
+         $("#cancelEditBtn").click(function () {
+             $("#editProfileModal").modal("hide");
+         });
+
+         // כפתור שינוי סיסמה
+         $("#ChangePassword").click(function () {
+             window.location.href = '/Account/ChangePassword';
+         });
+
+         $(document).ready(function () {
+             $("#saveProfileBtn").click(function () {
+                 console.log("Save Profile button clicked");
+
+                 const formData = {
+                     firstName: $("#editFirstName").val().trim(),
+                     lastName: $("#editLastName").val().trim(),
+                     email: $("#editEmail").val().trim(),
+                     phone: $("#editPhone").val().trim(),
+                     age: parseInt($("#editAge").val())
+                 };
+
+                 // ביצוע בדיקות אם השדות תקינים
+                 if (!formData.age || isNaN(formData.age) || formData.age <= 10) {
+                     alert("Age must be a valid number and greater than 10.");
+                     return;
+                 }
+
+                 if (!/^\d+$/.test(formData.phone)) {
+                     alert("Phone number must only contain numbers.");
+                     return;
+                 }
+
+                 // הדפסת הנתונים ל-console כדי לוודא שהם נשלחים
+                 console.log("Sending data: ", formData);
+
+                 // שליחת נתונים ל-Controller דרך AJAX
+                 $.ajax({
+                     url: '/Profile/SaveProfile', // URL של הפעולה ב-Controller
+                     type: 'POST',
+                     data: formData,
+                     success: function (response) {
+                         console.log("AJAX Success: ", response); // בדוק את התשובה מהשרת
+                         if (response.success) {
+                             alert(response.message);
+                             location.reload(); // ריענון הדף לאחר שמירה מוצלחת
+                         } else {
+                             alert(response.message); // הצגת הודעה אם שמירה נכשלה
+                         }
+                     },
+                     error: function (xhr, status, error) {
+                         console.error("AJAX Error", status, error); // אם יש שגיאה ב-AJAX
+                         alert("An error occurred while saving the profile.");
+                     }
+                 });
+             });
+         });
+
+
+         // פתיחת המודאל להעלאת תמונה
+         $("#uploadImageBtn").click(function () {
+             $("#uploadImageModal").modal('show');
+         });
+
+         // ביטול העלאת התמונה
+         $("#cancelUploadBtn").click(function () {
+             $("#uploadImageModal").modal('hide');
+         });
+
+         // שליחת התמונה לשרת
+         $("#saveImageBtn").click(function () {
+             var formData = new FormData();
+             var file = $("#profileImage")[0].files[0];
+
+             if (!file) {
+                 alert("Please select an image to upload.");
+                 return;
+             }
+
+             formData.append("ProfileImage", file);
+
+             $.ajax({
+                 url: '/Profile/UploadProfileImage', // URL לפעולה בה תטפל בתמונה ב-Controller
+                 type: 'POST',
+                 data: formData,
+                 contentType: false,
+                 processData: false,
+                 success: function (response) {
+                     console.log("Image upload success: ", response); // בדוק את התשובה מהשרת
+                     if (response.success) {
+                         alert(response.message);
+                         location.reload(); // ריענון הדף לאחר הצלחה
+                     } else {
+                         alert(response.message); // הצגת הודעה אם לא הצליח
+                     }
+                 },
+                 error: function () {
+                     console.error("Image upload error"); // אם יש שגיאה בהעלאת התמונה
+                     alert("An error occurred while uploading the image.");
+                 }
+             });
+         });
+     });
+
+ </script>
+
+
+
+

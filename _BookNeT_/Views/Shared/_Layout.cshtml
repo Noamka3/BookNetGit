@@ -7,6 +7,8 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link rel="stylesheet" href="~/css/site.css" />
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -17,7 +19,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("BookNeT", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <a href="@Url.Action("Index", "Home")" class="navbar-brand" style="font-size: 2.5rem; font-weight: bold; color: #0056b3; text-transform: uppercase;">
+                    BookNeT
+                </a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -35,14 +39,20 @@
                 <ul class="nav navbar-nav" style="float:right !important">
                     @if (Session["FirstName"] != null)
                     {
-                        <li><p style="color:#fff;margin-top:15px;">Hello @Session["FirstName"], @Html.ActionLink("Logout", "Logout", "home") </p></li>
-                  
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("Login", "Login", "Account")</li>
-                        <li>@Html.ActionLink("Register", "Register", "Account")</li>
-                    }
+                <li>
+                    <p style="color:#fff; font-size: 1.5rem; margin-top:15px;">
+                        <a href="@Url.Action("Details", "Profile")" style="color: inherit; text-decoration: none;">
+                            <i class="bi bi-person-circle" style="margin-right: 5px; cursor: pointer;"></i>
+                        </a>
+                        Hello @Session["FirstName"],
+                        @Html.ActionLink("Logout", "Logout", "home")
+                    </p>
+                </li> }
+                            else
+                            {
+                                <li>@Html.ActionLink("Login", "Login", "Account")</li>
+                                <li>@Html.ActionLink("Register", "Register", "Account")</li>
+                            }
                 </ul>
 
             </div>
@@ -52,11 +62,11 @@
         @RenderBody()
         <hr />
         <!-- שינוי מיקום ה-footer -->
-        <footer class="footer text-muted text-center">
+        <!--<footer class="footer text-muted text-center">
             <div class="container-fluid">
                 &copy; 2024 - BookNeT - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
             </div>
-        </footer>
+        </footer>-->
 
     </div>
 

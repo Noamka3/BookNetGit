@@ -42,8 +42,11 @@ namespace _BookNeT_.Models
         public Nullable<System.DateTime> BorrowDate { get; set; }
         public string Status { get; set; }
         public string ImageUrl { get; set; }
+<<<<<<< HEAD
+=======
         public Nullable<int> DiscountPercentage { get; set; }
         public string Description { get; set; }
+>>>>>>> 8b70d84b2e3bd3a11b6549c045f7ba6f792b85d7
     
         public decimal CalculateDiscountedPrice()
         {

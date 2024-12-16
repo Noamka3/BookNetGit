@@ -15,7 +15,7 @@ namespace _BookNeT_.Models.viewModels
         public String LastName { get; set; }
 
         [Required(ErrorMessage = "Phone number is required.")]
-        [RegularExpression(@"^\+?[0-9]{10,15}$", ErrorMessage = "Phone number must be between 10 and 15 digits, optionally starting with a +.")]
+        [RegularExpression(@"^\+?[0-9]{10}$", ErrorMessage = "Phone number must be between 10 digits, optionally starting with a +.")]
         public string Phone { get; set; }
 
         [Required(ErrorMessage = "Email is required.")]

@@ -31,7 +31,8 @@ namespace _BookNeT_.Models
         public virtual DbSet<ServiceFeedback> ServiceFeedback { get; set; }
         public virtual DbSet<ShoppingCart> ShoppingCart { get; set; }
         public virtual DbSet<UserLibrary> UserLibrary { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<WaitingList> WaitingList { get; set; }
+        public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
     }
 }

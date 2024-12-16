@@ -13,7 +13,7 @@ namespace _BookNeT_Project.Controllers
 {
     public class UsersController : Controller
     {
-         BookNeT_projectEntities db = new BookNeT_projectEntities();
+        BookNeT_projectEntities db = new BookNeT_projectEntities();
 
         // GET: Users
         public ActionResult Users()
@@ -79,7 +79,7 @@ namespace _BookNeT_Project.Controllers
                     user.LastName = updatedUser.LastName;
                     user.Email = updatedUser.Email;
                     user.Phone = updatedUser.Phone;
-                    user.Role = updatedUser.Role;
+                    
 
                     // שמירה ב-Database
                     db.SaveChanges();
@@ -147,37 +147,37 @@ namespace _BookNeT_Project.Controllers
 
         // GET: Users/ChangeAdmin/5
         [HttpGet]
-public ActionResult ChangeRole(int? id)
-{
-    // אם ה-ID לא קיים, נחזיר שגיאה
-    if (id == null)
-    {
-        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-    }
-    
-    // חפש את המשתמש ב-DB לפי ה-ID
-    Users user = db.Users.Find(id);
-    
-    // אם המשתמש לא נמצא, נחזיר שגיאה
-    if (user == null)
-    {
-        return HttpNotFound();
-    }
-    if(user.Role == "Admin")
-    {
-     user.Role = "user";
-    }
-    else
-    {
-     user.Role = "Admin";
-     }
+        public ActionResult ChangeRole(int? id)
+        {
+            // אם ה-ID לא קיים, נחזיר שגיאה
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
-    db.SaveChanges();
+            // חפש את המשתמש ב-DB לפי ה-ID
+            Users user = db.Users.Find(id);
+
+            // אם המשתמש לא נמצא, נחזיר שגיאה
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            if (user.Role == "Admin")
+            {
+                user.Role = "user";
+            }
+            else
+            {
+                user.Role = "Admin";
+            }
+
+            db.SaveChanges();
 
             // החזרה לדף הרשימה עם הודעת הצלחה
             TempData["SuccessMessage"] = "The User " + user.FirstName + " has been successfully updated to " + user.Role;
             return RedirectToAction("Users");
-}
+        }
         // GET: Users/Search
 
 
